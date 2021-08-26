@@ -1,0 +1,15 @@
+body {
+    width: 100%;
+}
+
+#main {
+    background-color: #90EE90;
+}
+
+#title {
+    background-color: #00A36C;
+}
+
+canvas {
+    background-color: #ffffff;
+}
