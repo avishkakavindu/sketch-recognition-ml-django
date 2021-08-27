@@ -15,21 +15,24 @@
   </head>
   <body>
     
-    <div class="container m-2 ps-5 pe-5 pt-2 pb-2 border border-success rounded" id="main">
+    <div class="container m-2 border border-success rounded" id="main">
       <div class="row p-2 rounded mb-2" id="title">
         <h1>Sketch Recognition</h1>
       </div>     
-      <div class="row">
-        <div class="col-md-6">
+      <div class="row pb-2">
+        <div class="col-md-6" id="sketch-pad">
           <canvas id="sketch-canvas" class="border rounded">
           </canvas>
         </div>
         <div class="col-md-6">
           <div class="container">
-            <div class="col-md mb-5">
+            <div class="col-md p-3 d-flex justify-content-center">
+              <img id="main-img" src="{%static 'images/draw.svg' %}" width="350px">
+            </div>
+            <div class="col-md mb-5" id="notify_win">
               <div class="alert alert-light" role="alert">
-                <img class="d-inline-lg me-5" src="{% static 'images/draw.svg' %}" width="100px" height="100px">
-                <h3 class="d-lg-inline">Let's draw...</h3>
+                <img class="d-inline-lg me-5" id="pred_img" src="{% static 'images/draw.svg' %}" width="50px" height="auto">
+                <h3 class="d-lg-inline" id="pred_str">Let's draw...</h3>
               </div>
             </div>
           </div>

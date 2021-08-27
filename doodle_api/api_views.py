@@ -5,6 +5,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 import numpy as np
 from rest_framework.response import Response
+from doodle_api.models import  Label
+from rest_framework import status
 
 
 class PredictAPIView(APIView):
@@ -32,9 +34,10 @@ class PredictAPIView(APIView):
         file_path = default_storage.path(file_name)
 
         test_img = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
-        cv2.imshow('lol', test_img)
-        cv2.waitKey(0)
+
+        # kernel for morphological operations - erode
         kernel = np.ones((3, 3), np.uint8)
+
         test_img = cv2.erode(test_img, kernel, iterations=1)
         #   print(test_img.shape)
         test_img = cv2.resize(test_img, dsize=(size, size), interpolation=cv2.INTER_AREA)
@@ -55,4 +58,14 @@ class PredictAPIView(APIView):
 
         spred = (-pred).argsort()
 
-        return Response({'cls': class_names, 'lol': pred, 'xx': [class_names[i] for i in spred]})
+        prediction = class_names[spred[0]]
+
+        image = Label.objects.get(name=prediction.lower()).image.name
+
+        context = {
+            'prediction': prediction,
+            'accuracy': max(pred),
+            'image': image
+        }
+        print('\n\n\n', context)
+        return Response(context)

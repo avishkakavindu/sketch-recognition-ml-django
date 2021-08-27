@@ -81,6 +81,13 @@ window.addEventListener('load', ()=>{
 
     // clear canvas
     $('#btn-clear').on('click', function(){
+        $('#notify_win').empty().append(
+            '<div class="alert alert-light" role="alert">\n' +
+            '                <img class="d-inline-lg me-5" id="pred_img" src="static/images/draw.svg" width="50px" height="auto">\n' +
+            '                <h3 class="d-lg-inline" id="pred_str">Let\'s draw...</h3>\n' +
+            '              </div>'
+        );
+        $('#main-img').attr('src', 'static/images/draw.svg');
         context.clearRect(0, 0, canvas.width, canvas.height);
     });
 
@@ -95,24 +102,50 @@ window.addEventListener('load', ()=>{
             formData.append("csrfmiddlewaretoken", csrftoken );
 
 
-        let payload = {
-            url: `${$(location).attr('protocol')}//${domain}/predict/`,
-            method: 'POST',
-            processData: false, // important
-            contentType: false, // important
-            dataType : 'json',
-            data: formData
-        };
+            let payload = {
+                url: `${$(location).attr('protocol')}//${domain}/predict/`,
+                method: 'POST',
+                processData: false, // important
+                contentType: false, // important
+                dataType : 'json',
+                data: formData
+            };
 
-        $.ajax(payload)
-            .done(function (response) {
-                console.log(response);
-            })
-            .fail(function () {
-                console.log('Error')
-            });
+            $.ajax(payload)
+                .done(function (response) {
+                    let prediction_str = response['prediction'].charAt(0).toUpperCase() + response['prediction'].slice(1).toLowerCase()
+                    show_predictions(prediction_str, 'media/' + response['image'], response['accuracy'])
+                    console.log(response)
+                })
+                .fail(function () {
+                    show_error()
+                });
 
-        }, "image/png");
+            }, "image/png");
 
     });
 });
+
+function show_predictions(prediction, image, accuracy){
+    const image_ele = $('#pred_img');
+    const pred_str = $('#pred_str');
+    const main_img = $('#main-img');
+
+    image_ele.parent().attr('class', 'alert alert-success');
+    main_img.attr('src', image)
+    image_ele.attr('src', 'static/images/thinking.svg');
+    pred_str.text(
+        "I'm " + (accuracy * 100).toFixed(2) + "% sure, It's " + prediction);
+}
+
+function show_error(){
+    const image_ele = $('#pred_img');
+    const pred_str = $('#pred_str');
+    const main_img = $('#main-img');
+
+    image_ele.parent().attr('class', 'alert alert-danger');
+    image_ele.attr('src', 'static/images/anxiety.svg');
+    main_img.attr('src', 'static/images/error.svg')
+    pred_str.empty().append('Oops! <span class="fs-5">failed to identify !</span>');
+
+}

@@ -1,5 +1,10 @@
+html {
+    height: 100%;
+}
+
 body {
     width: 100%;
+    min-height: 100%;
 }
 
 #main {
@@ -8,6 +13,10 @@ body {
 
 #title {
     background-color: #00A36C;
+}
+
+#sketch-pad {
+    height: 600px;
 }
 
 canvas {
