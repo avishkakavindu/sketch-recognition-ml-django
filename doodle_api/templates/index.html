@@ -18,7 +18,7 @@
 
 <div class="container m-2 border border-success rounded" id="main">
     <div class="row p-2 rounded mb-2" id="title">
-        <h1>Sketch Recognition</h1>
+        <h1>QuickDraw Replica - Sketch Recognition</h1>
     </div>
     <div class="row pb-2">
         <div class="col-md-6" id="sketch-pad">
@@ -32,15 +32,12 @@
                 </div>
                 <div class="col-md mb-5" id="notify_win">
                     <div class="alert alert-light" role="alert">
-                        <img class="d-inline-lg me-5" id="pred_img" src="{% static 'images/draw.svg' %}" width="50px"
+                        <img class="d-lg-inline me-5" id="pred_img" src="{% static 'images/draw.svg' %}" width="100px"
                              height="auto">
                         <h3 class="d-lg-inline" id="pred_str">Let's draw...</h3>
-                    </div>
-                </div>
-                <div class="col-md mb-5" id="progress">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%"
-                             aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="text-center" id="other_pred">
+
+                        </div>
                     </div>
                 </div>
                 <div class="row">

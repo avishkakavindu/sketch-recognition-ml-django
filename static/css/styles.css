@@ -22,3 +22,7 @@ body {
 canvas {
     background-color: #ffffff;
 }
+
+.progress {
+    height: 10px;
+}

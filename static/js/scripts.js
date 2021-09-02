@@ -36,7 +36,7 @@ window.addEventListener('load', ()=>{
     function start_drawing(){
         console.log('mouse down')
         is_draw = true;
-    } 
+    }
     function end_drawing(){
         console.log('mouse up')
         is_draw = false;
@@ -53,7 +53,7 @@ window.addEventListener('load', ()=>{
             y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
         }
     }
-      
+
 
     function draw(e){
         if (is_draw){
@@ -84,9 +84,10 @@ window.addEventListener('load', ()=>{
     $('#btn-clear').on('click', function(){
         $('#notify_win').empty().append(
             '<div class="alert alert-light" role="alert">\n' +
-            '                <img class="d-inline-lg me-5" id="pred_img" src="static/images/draw.svg" width="50px" height="auto">\n' +
-            '                <h3 class="d-lg-inline" id="pred_str">Let\'s draw...</h3>\n' +
-            '              </div>'
+            '    <img class="d-inline-lg me-5" id="pred_img" src="static/images/draw.svg" width="100px" height="auto">\n' +
+            '    <h3 class="d-lg-inline" id="pred_str">Let\'s draw...</h3>\n' +
+            '    <div class="text-center" id="other_pred"></div>' +
+            '</div>'
         );
         $('#main-img').attr('src', 'static/images/draw.svg');
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -119,7 +120,7 @@ window.addEventListener('load', ()=>{
             $.ajax(payload)
                 .done(function (response) {
                     let prediction_str = response['prediction'].charAt(0).toUpperCase() + response['prediction'].slice(1).toLowerCase()
-                    show_predictions(prediction_str, 'media/' + response['image'], response['accuracy'])
+                    show_predictions(prediction_str, 'media/' + response['image'], response['accuracy'], response['all_predictions'])
                     console.log(response)
                 })
                 .fail(function () {
@@ -131,18 +132,31 @@ window.addEventListener('load', ()=>{
     });
 });
 
-function show_predictions(prediction, image, accuracy){
+function show_predictions(prediction, image, accuracy, all_preds){
     const image_ele = $('#pred_img');
     const pred_str = $('#pred_str');
     const main_img = $('#main-img');
+    const other_pred = $('#other_pred');
 
     image_ele.parent().attr('class', 'alert alert-success');
     main_img.attr('src', image)
     image_ele.attr('src', 'static/images/thinking.svg');
     pred_str.text(
         "I'm " + (accuracy * 100).toFixed(2) + "% sure, It's " + prediction);
+
+    // other predictions
+    Object.keys(all_preds).forEach(function(key, i) {
+        if(i === 0 || i > 3){
+            return;
+        }
+        let pred = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()
+        other_pred.append(`
+            <span class="badge rounded-pill bg-warning text-dark">${pred} : ${(all_preds[key] * 100).toFixed(2)}% </span>
+        `);
+    });
 }
 
+// show internal server errors
 function show_error(){
     const image_ele = $('#pred_img');
     const pred_str = $('#pred_str');
@@ -154,3 +168,4 @@ function show_error(){
     pred_str.empty().append('Oops! <span class="fs-5">failed to identify !</span>');
 
 }
+
