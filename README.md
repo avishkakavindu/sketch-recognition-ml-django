@@ -35,5 +35,22 @@ or,
 
 1) Clone the repo
 2) Install the pre requities libraries
-3) On directory containing `manage.py` run `>>> python mnage.py runserver`
+3) On directory containing `manage.py` run
 
+`>>> python manage.py makemigrations`
+
+`>>> python manage.py migrate`
+
+4) Create super user by running
+
+`>>> python manage.py createsuperuser`
+
+provide the details.
+
+5) Run `>>> python manage.py runserver`
+6) Visit `http://127.0.0.1:8000/admin` provide credentials for super user
+7) Populate `Label` table with relavant details about the trained labels.(.svg images)
+8) Visit `http://127.0.0.1:8000/`
+
+---
+Raised issues greatly appreciated.
