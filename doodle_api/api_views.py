@@ -66,7 +66,8 @@ class PredictAPIView(APIView):
         }
 
         # get predictions
-        reconstructed_model = keras.models.load_model('static/model/model_deep_updated_no_last_maxpool_batch_128 two conv 64.h5', compile=False)
+        reconstructed_model = keras.models.load_model('static/model/model_perfect_deep_fully_trained_model.h5', compile=False)
+        reconstructed_model.summary()
         pred = reconstructed_model.predict(test_img)[0]
 
         spred = (-pred).argsort()
