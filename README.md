@@ -53,4 +53,4 @@ provide the details.
 8) Visit `http://127.0.0.1:8000/`
 
 ---
-Raised issues greatly appreciated.
+Raised issues are greatly appreciated.
