@@ -28,7 +28,7 @@ or,
 ## Implementation 
 
 1) Convolutional Neural Network
-2) Django and Django REST framework poered backend
+2) Django and Django REST framework powered backend
 
 
 ## Setup 🖥️
